@@ -208,8 +208,11 @@ sudo chmod +x /usr/local/bin/mysql-crash-detect.sh
 
 ### Edit MySQL service to add hooks
 
+Create override:
+
 ```bash
-sudo systemctl edit mysql
+sudo mkdir -p /etc/systemd/system/mariadb.service.d
+sudo nano /etc/systemd/system/mariadb.service.d/override.conf
 ```
 
 Add:
@@ -218,7 +221,6 @@ Add:
 [Service]
 ExecStartPost=/usr/local/bin/mysql-start-hook.sh
 ExecStopPost=/usr/local/bin/mysql-stop-hook.sh
-Restart=always
 ExecStartPre=/usr/local/bin/mysql-crash-detect.sh
 ```
 
