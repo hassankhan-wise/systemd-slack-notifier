@@ -224,6 +224,22 @@ ExecStopPost=/usr/local/bin/mysql-stop-hook.sh
 ExecStartPre=/usr/local/bin/mysql-crash-detect.sh
 ```
 
+To verify override was saved:
+
+```bash
+sudo systemctl cat mariadb
+```
+
+You should see this at the bottom:
+
+```ini
+# /etc/systemd/system/mariadb.service.d/override.conf
+[Service]
+ExecStartPost=/usr/local/bin/mysql-start-hook.sh
+ExecStopPost=/usr/local/bin/mysql-stop-hook.sh
+ExecStartPre=/usr/local/bin/mysql-crash-detect.sh
+```ini
+
 Reload systemd:
 
 ```bash
