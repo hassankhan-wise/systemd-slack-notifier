@@ -238,7 +238,7 @@ You should see this at the bottom:
 ExecStartPost=/usr/local/bin/mysql-start-hook.sh
 ExecStopPost=/usr/local/bin/mysql-stop-hook.sh
 ExecStartPre=/usr/local/bin/mysql-crash-detect.sh
-```ini
+```
 
 Reload systemd:
 
