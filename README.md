@@ -252,22 +252,52 @@ sudo systemctl daemon-reload
 
 ### 6. Server Shutdown Notification
 
+Create systemd service:
+
 ```bash
-sudo nano /lib/systemd/system-shutdown/slack-shutdown.sh
+sudo nano /etc/systemd/system/server-shutdown-hook.service
+```
+
+```ini
+[Unit]
+Description=Slack notification when server shuts down
+DefaultDependencies=no
+Before=shutdown.target reboot.target halt.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/server-shutdown-hook.sh
+
+[Install]
+WantedBy=shutdown.target reboot.target halt.target
+```
+
+Enable:
+
+```bash
+sudo systemctl enable server-shutdown-hook.service
+```
+
+---
+
+### Shutdown script
+
+```bash
+sudo nano /usr/local/bin/server-shutdown-hook.sh
 ```
 
 ```bash
 #!/bin/bash
 /usr/local/bin/slack-notify.sh \
   "Server Shutdown" \
-  "The server is shutting down. Reason: $1" \
+  "The server is shutting down." \
   "server_shutdown"
 ```
 
 Make executable:
 
 ```bash
-sudo chmod +x /lib/systemd/system-shutdown/slack-shutdown.sh
+sudo chmod +x /usr/local/bin/server-shutdown-hook.sh
 ```
 
 ---
